@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view />
+    <router-view/>
   </div>
 
 </template>
@@ -9,20 +9,22 @@
   @import "styles/style.scss";
 </style>
 <script setup lang="ts">
-import { computed } from 'vue'
-import {onBeforeMount} from "vue";
+import { onBeforeMount } from "vue";
 import { RouterView } from "vue-router";
-import {useProvidersStore} from "@/stores/provider";
+import { useProvidersStore } from "@/stores/provider";
 
-const providers = useProvidersStore().register()
-const address  = computed(() => {
-  return providers.metamask.$state.address;
-});
+const providers = useProvidersStore()
+
 const visible = true;
-onBeforeMount(() => {
-  providers.metamask.register()
-  providers.metamask.connect().then(() => {
-    console.log(providers.metamask.$state, address)
-  })
+onBeforeMount(async () => {
+  try {
+    const registered = await providers.register()
+    for (const provider in registered) {
+      console.log((registered as any)[provider].getAccounts)
+    }
+    console.log(registered)
+  } catch (e) {
+    console.error(e)
+  }
 })
 </script>

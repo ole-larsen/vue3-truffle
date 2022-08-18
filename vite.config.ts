@@ -21,7 +21,8 @@ export default defineConfig(({ command, mode }) => {
     },
     resolve: {
       alias: {
-        "@": fileURLToPath(new URL("./src", import.meta.url)),
+        "@": fileURLToPath(new URL("./src", import.meta.url)), 
+        http: "http-browserify",
       }
     },
     optimizeDeps: {
@@ -33,7 +34,8 @@ export default defineConfig(({ command, mode }) => {
           })
         ],
         define: {
-          global: 'globalThis'
+          global: 'globalThis',
+          
         }
       }
     }

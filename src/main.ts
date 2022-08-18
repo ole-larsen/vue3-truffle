@@ -11,8 +11,18 @@ import DocsCallout from "./components/DocsCallout.vue";
 import DocsExample from "./components/DocsExample.vue";
 
 const app = createApp(App);
-app.config.globalProperties.$web3 = new Web3
-app.config.globalProperties.$ethereum = window.ethereum
+
+const web3 = new Web3(Web3.givenProvider??new Web3.providers.HttpProvider(import.meta.env.VITE_WEB3_PROVIDER))
+
+if (window.ethereum) {
+    app.config.globalProperties.$ethereum = window.ethereum
+}
+if (web3) {
+    app.config.globalProperties.$web3 = web3
+}
+// window.bind solve Fetch TypeError: Failed to execute 'fetch' on 'Window': Illegal invocation
+app.config.globalProperties.$rpc = window.fetch.bind(window)
+
 app.use(createPinia());
 app.use(router);
 
