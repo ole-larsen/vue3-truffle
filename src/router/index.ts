@@ -1,89 +1,47 @@
-import { h, resolveComponent } from "vue"
 import { createRouter, createWebHistory } from "vue-router"
-import HomeView from "@/views/HomeView.vue"
-
 import DefaultLayout from "@/layouts/DefaultLayout.vue"
-
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: DefaultLayout,
-    redirect: "/dashboard",
-    children: [
-      {
-        path: "/dashboard",
-        name: "Dashboard",
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import(/* webpackChunkName: "dashboard" */ "@/views/Dashboard.vue"),
-      },
-      {
-        path: "/base",
-        name: "Base",
-        component: {
-          render() {
-            return h(resolveComponent("router-view"))
-          },
-        },
-        redirect: "/base/breadcrumbs",
-        children: [],
-      }
-    ],
-  },
-  {
-    path: "/pages",
-    redirect: "/pages/404",
-    name: "Pages",
-    component: {
-      render() {
-        return h(resolveComponent("router-view"))
-      },
-    },
-    children: [
-      {
-        path: "404",
-        name: "Page404",
-        component: () => import("@/views/pages/Page404"),
-      },
-      {
-        path: "500",
-        name: "Page500",
-        component: () => import("@/views/pages/Page500"),
-      },
-      {
-        path: "login",
-        name: "Login",
-        component: () => import("@/views/pages/Login"),
-      },
-      {
-        path: "register",
-        name: "Register",
-        component: () => import("@/views/pages/Register"),
-      },
-    ],
-  },
-]
+import { useAuthStore } from "@/stores/auth"
+import HomeView from "@/views/HomeView.vue"
+import LoginView from "@/views/auth/LoginView.vue"
+import SignupView from "@/views/auth/SignupView.vue"
+import ForgotPasswordView from "@/views/auth/ForgotPasswordView.vue"
+import Ga2faView from "@/views/auth/Ga2faView.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: routes
-  // [
-  //   {
-  //     path: "/",
-  //     name: "home",
-  //     component: HomeView
-  //   },
-  //   {
-  //     path: "/about",
-  //     name: "about",
-  //     // route level code-splitting
-  //     // this generates a separate chunk (About.[hash].js) for this route
-  //     // which is lazy-loaded when the route is visited.
-  //     component: () => import("@/views/AboutView.vue")
-  //   }
-  // ]
-})
-
+  linkActiveClass: 'active',
+  routes: [
+    {
+      path: "/",
+      name: "Home",
+      component: DefaultLayout,
+      redirect: "/dashboard",
+      children: [
+        {
+          path: "/dashboard",
+          name: "Dashboard",
+          // route level code-splitting
+          // this generates a separate chunk (dashboard.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () => import("@/views/Dashboard.vue")
+        }
+      ]
+    },
+    { path: '/login',           component: LoginView },
+    { path: '/signup',          component: SignupView },
+    { path: '/forgot-password', component: ForgotPasswordView },
+    { path: '/2fa',             component: Ga2faView }
+  ]
+});
+router.beforeEach(async (to) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login', '/signup', '/forgot-password'];
+  const authRequired = !publicPages.includes(to.path);
+  const auth: any = useAuthStore();
+  console.log(auth)
+  if (!localStorage.getItem('user'))
+  if (authRequired && !auth.user) {
+    auth.returnUrl = to.fullPath;
+    return '/login';
+  }
+});
 export default router

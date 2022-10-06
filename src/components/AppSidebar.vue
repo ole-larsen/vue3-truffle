@@ -7,11 +7,7 @@
   >
 
     <CSidebarBrand>
-      <CIcon
-        custom-class-name="sidebar-brand-full"
-        :icon="logoNegative"
-        :height="35"
-      />
+      <img class="sidebar-brand-full" :width="200" :src="logo">
       <CIcon
         custom-class-name="sidebar-brand-narrow"
         :icon="sygnet"
@@ -39,11 +35,12 @@
 <script lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { computed } from   'vue'
-import { AppSidebarNav }   from './AppSidebarNav'
+import { AppSidebarNav }   from './AppSidebarNav.js'
 import { logoNegative }    from '@/assets/brand/logo-negative'
 import { sygnet }          from '@/assets/brand/sygnet'
 import {useSidebarStore}   from "@/stores/sidebar";
 import {useProvidersStore} from "@/stores/provider";
+import logo from '@/assets/brand/logo.svg'
 
 export default {
   name: 'AppSidebar',
@@ -56,11 +53,11 @@ export default {
     const accounts  = computed(() => {
       return provider.getAccounts
     });
-    // console.log(accounts)
     const address  = computed(() => {
       return provider.getNames
     });
     return {
+      logo,
       logoNegative,
       sygnet,
       address,

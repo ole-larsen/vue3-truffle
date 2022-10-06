@@ -48,6 +48,7 @@
 import AppBreadcrumb from './AppBreadcrumb.vue'
 import AppHeaderDropdownAccnt from './AppHeaderDropdownAccnt.vue'
 import { logo } from '@/assets/brand/logo'
+
 export default {
   name: 'AppHeader',
   components: {
@@ -56,7 +57,7 @@ export default {
   },
   setup() {
     return {
-      logo,
+      logo: "/images/logo.svg",
     }
   },
 }

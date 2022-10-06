@@ -46,16 +46,17 @@ export const useProvidersStore = defineStore("provider", {
     actions: {
         async register() {
             const providers: any = this.getProviders()
-            
+            const promises = []
             for (const provider in providers) {
-                try {
-                    console.log(provider)
-                    await providers[provider].register()
-                    await providers[provider].storeAccounts()             
-                } catch (e) {
-                    console.error(e)
-                }
+                promises.push(providers[provider].register())
+                promises.push(providers[provider].storeAccounts())
             }
+            try {
+                await Promise.all(promises)
+            } catch (e) {
+                console.error(e)
+            }
+
             this.storeAccounts()
             this.storeNames()
             return this.providers

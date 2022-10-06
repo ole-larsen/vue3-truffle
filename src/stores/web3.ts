@@ -48,13 +48,12 @@ export const useWeb3Store = defineStore({
     storeAddress(accounts: string[]) {
       return accounts[0]
     },
-    storeAccounts() {
-      return this.provider.eth.getAccounts()
-      .then((accounts: string[]) => {
-        console.log(accounts)
-        this.accounts = accounts
-      })
-      .catch((e: Error) => {throw e})
+    async storeAccounts() {
+      await this.provider.eth.getAccounts()
+        .then((accounts: string[]) => {
+          this.accounts = accounts
+        })
+        .catch((e: Error) => {throw e})
     },
     storeChainId() {
       return this.provider?.eth.getChainId()

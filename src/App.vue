@@ -20,9 +20,8 @@ onBeforeMount(async () => {
   try {
     const registered = await providers.register()
     for (const provider in registered) {
-      console.log((registered as any)[provider].getAccounts)
+      console.log(provider, (registered as any)[provider].getAccounts)
     }
-    console.log(registered)
   } catch (e) {
     console.error(e)
   }

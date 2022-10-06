@@ -1,5 +1,130 @@
 <template>
   <div>
+    <CCard>
+      <CCardBody>
+    <CForm>
+    <CRow>
+      <CCol :sm="4">
+        <CCard color="dark" text-color="white">
+          <CCardBody>
+            <CCardTitle>Token Details</CCardTitle>
+            <CCardText>
+                <CFormInput
+                    type="text"
+                    label="Token Name"
+                    placeholder="Token name"
+                    text="Choose a name for your token"
+                />
+                <CFormInput
+                    type="text"
+                    label="Token Symbol"
+                    placeholder="Token symbol"
+                    text="Choose a symbol for your token"
+                />
+                <CFormInput
+                    type="number"
+                    label="Token Decimals"
+                    placeholder="Token decimals"
+                    text="Decimal token precision. By default 18"
+                />
+                <CFormInput
+                    type="text"
+                    label="Initial Supply"
+                    placeholder="Token initial supply"
+                    text="initial number of available coins. Will be put in your account"
+                />
+                <CFormInput
+                    type="text"
+                    label="Total Supply"
+                    placeholder="Token max supply"
+                    text="maximum available coins"
+                    disabled
+                />
+            </CCardText>
+          </CCardBody>
+        </CCard>
+      </CCol>
+      <CCol :sm="4">
+        <CCard color="dark" text-color="white">
+          <CCardBody>
+            <CCardTitle>Token Features</CCardTitle>
+            <CCardText>
+              <CFormSelect disabled
+                  aria-label="Supply Type"
+                  text="100k, Fixed, Unlimited, Capped"
+                  :options="[
+                    'Supply Type',
+                    { label: '100k', value: '1' },
+                    { label: 'Fixed', value: '2' },
+                    { label: 'Unlimited', value: '3', disabled: true },
+                    { label: 'Capped', value: '3', disabled: true },
+                  ]">
+              </CFormSelect>
+
+              <CFormSelect disabled
+                           aria-label="Access Type"
+                           text="None, Ownable, Role Based"
+                           :options="[
+                    'Access Type',
+                    { label: 'None', value: '1' },
+                    { label: 'Ownable', value: '2' },
+                    { label: 'Role Based', value: '3', disabled: true },
+                  ]">
+              </CFormSelect>
+
+              <CFormSelect disabled
+                           aria-label="Transfer Type"
+                           text="Unstoppable, Pausable"
+                           :options="[
+                    'Transfer Type',
+                    { label: 'Unstoppable', value: '1' },
+                    { label: 'Pausable', value: '2' },
+                  ]">
+              </CFormSelect>
+              <CFormSwitch
+                  label="Verified Source Code"
+                  text="Your Token Source Code will be automatically verified on Etherscan"
+                  checked/>
+              <CFormSwitch label="Burnable"/>
+              <CFormSwitch label="Mintable"/>
+              <CFormSwitch label="ERC1363"/>
+              <CFormSwitch label="Token Recover"/>
+            </CCardText>
+          </CCardBody>
+        </CCard>
+      </CCol>
+      <CCol :sm="4">
+        <CCard color="dark" text-color="white">
+          <CCardBody>
+            <CCardTitle>Token type and Network</CCardTitle>
+            <CCardText>
+              <CFormSelect disabled
+                           aria-label="Token Type"
+                           text="Choose Token type"
+                           :options="[
+                    'Token Type',
+                    { label: 'StandartERC20', value: '1' },
+                    { label: 'HelloERC20', value: '2' },
+                  ]">
+              </CFormSelect>
+              <CFormSelect disabled
+                           aria-label="Network"
+                           text="Network"
+                           :options="[
+                    'Network',
+                    { label: 'Main Ethereum Network', value: '1' },
+                    { label: 'Ropsten Test Network', value: '2' },
+                  ]">
+              </CFormSelect>
+            </CCardText>
+            <CButton href="#">Go somewhere</CButton>
+          </CCardBody>
+        </CCard>
+      </CCol>
+    </CRow>
+    </CForm>
+      </CCardBody>
+    </CCard>
     <WidgetsStatsA />
     <CRow>
       <CCol :md="12">

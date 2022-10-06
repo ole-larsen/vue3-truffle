@@ -31,8 +31,6 @@ export const useRpcStore = defineStore({
           .then((chainID: number | PromiseLike<number>) => {
             this.connected = true
             this.chainID = chainID as number
-            console.log(this.chainID)
-          
             return this.chainID
           })
           .catch((e: Error) => {
@@ -44,18 +42,25 @@ export const useRpcStore = defineStore({
     storeAddress(accounts: string[]) {
       return accounts[0]
     },
-    storeAccounts() {
-      this.provider("http://localhost:1111/api/v1/accounts")
-        .then((response: Response) => response.json())
-        .then((accounts: string[]) => {
-          console.log(accounts)
-          this.accounts = accounts
-        })
-        .catch((e: Error) => {throw e})
+    async storeAccounts() {
+      await this.provider("http://localhost:1111/api/v1/accounts", {
+        method: "GET"
+      })
+      .then((response: Response) => response.json())
+      .then((accounts: string[]) => {
+        this.accounts = accounts
+      })
+      .catch((e: Error) => {throw e})
     },
     storeChainId() {
-      return this.provider("http://localhost:1111/api/v1/chain_id")
-        .then((response: Response) => response.json())
+      return this.provider('http://localhost:1111/api/v1/chain_id', {
+        method: "GET"
+      })
+      .then((response: Response) => response.json())
+      .then((chainID: string) => {
+        console.log(chainID)
+      })
+      .catch((e: Error) => {throw e})
     }
   }
 })

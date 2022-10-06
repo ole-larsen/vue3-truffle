@@ -43,10 +43,9 @@ export const useMetaMaskStore = defineStore({
     storeAddress(accounts: string[]) {
       return accounts[0]
     },
-    storeAccounts() {
-      this.provider?.request({ method: 'eth_requestAccounts' })
+    async storeAccounts() {
+      await this.provider?.request({ method: 'eth_requestAccounts' })
         .then((accounts: string[]) => {
-          console.log(accounts)
           this.accounts = accounts
         })
         .catch((e: Error) => {throw e})
